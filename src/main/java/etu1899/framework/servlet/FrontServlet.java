@@ -1,9 +1,9 @@
-package servlet;
+package etu1899.framework.servlet;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import utility.Util;
+import etu1899.framework.utility.Util;
 
 import java.io.IOException;
 
