@@ -6,4 +6,4 @@
 > - initializing the field ***UrlMappings*** in the method init of the FrontServlet **(Sprint 3)**
 
 
-## Copyright 2023 [Safidy Mendrika ETU001899 ](https://github.com/SafidyMendrika) 
+## Copyright 2023 [RAZAFIMALAZA Safidy Mendrika ETU001899 ](https://github.com/SafidyMendrika) 
