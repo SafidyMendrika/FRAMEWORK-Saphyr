@@ -4,6 +4,12 @@ public class Mapping {
     String className;
     String Method;
 
+    public Mapping(){}
+    public Mapping(String className,String method){
+        this.setClassName(className);
+        this.setMethod(method);
+    }
+
     public void setClassName(String className) {
         this.className = className;
     }
