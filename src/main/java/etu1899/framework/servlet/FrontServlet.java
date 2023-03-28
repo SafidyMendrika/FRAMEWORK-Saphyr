@@ -7,6 +7,7 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import etu1899.framework.utility.Util;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -22,7 +23,8 @@ public class FrontServlet extends HttpServlet {
         this.setMappingUrls(new HashMap<String,Mapping>());
 
         try{
-            this.defineUrlMappings();
+            defineUrlMappings();
+            System.out.println("init");
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -34,6 +36,9 @@ public class FrontServlet extends HttpServlet {
             String uri = Util.getLink(request);
             response.getWriter().println(uri);
 
+            Mapping temp = this.getMappingUrls().get("hello");
+
+            response.getWriter().println(temp.getClassName()+" :: "+temp.getMethod());
         }catch (Exception e){
 
         }
@@ -58,9 +63,15 @@ public class FrontServlet extends HttpServlet {
     }
 
     private void defineUrlMappings()throws Exception{
-        String modelsPackage = "model";
 
-        ArrayList<Class> classList = Util.getClassesWithAnnotation(modelsPackage,"DBModel");
+
+        ArrayList<File> files = new ArrayList<File>();
+
+
+        Util.getFilesIn(new File(this.getServletContext().getResource(".").getPath()),files);
+        files = Util.getClassesIn(files);
+
+        ArrayList<Class> classList = Util.getClasses(files);
 
         ArrayList<Method> methods = null;
         DBMethod ann = null;
