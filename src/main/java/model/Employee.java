@@ -1,7 +1,9 @@
 package model;
 
 import etu1899.framework.annotations.DBMethod;
+import etu1899.framework.annotations.DBModel;
 
+@DBModel(table = "Employee")
 public class Employee {
     private String name;
     private String adress;
