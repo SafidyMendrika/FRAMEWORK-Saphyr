@@ -39,6 +39,19 @@ public class FrontServlet extends HttpServlet {
             Mapping temp = this.getMappingUrls().get("hello");
 
             response.getWriter().println(temp.getClassName()+" :: "+temp.getMethod());
+
+            if (this.getMappingUrls().containsKey(uri)) {
+                Mapping mapping = (Mapping)this.getMappingUrls().get(uri);
+
+                Class clss = Class.forName(mapping.getClassName());
+                Object mappingObject = clss.newInstance();
+                Method mappingMethod = clss.getDeclaredMethod(mapping.getMethod());
+                
+                String jsp = (String) clss.getDeclaredMethod("JSP").invoke(mappingObject);
+
+                RequestDispatcher dispatch = response.getRequestDispatcher(jsp);
+                dispatch.forward(request,response);
+            }
         }catch (Exception e){
 
         }
