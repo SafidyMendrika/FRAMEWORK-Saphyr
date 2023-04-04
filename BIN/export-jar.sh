@@ -1,2 +1,0 @@
-jar -cvf framework.jar  *
-

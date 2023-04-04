@@ -1,7 +1,9 @@
 package etu1899.framework.servlet;
 
 import etu1899.framework.Mapping;
+import etu1899.framework.ModelView;
 import etu1899.framework.annotations.DBMethod;
+import etu1899.framework.annotations.Url;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -11,7 +13,9 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 
 @WebServlet(name = "FrontServlet", value = "/")
 public class FrontServlet extends HttpServlet {
@@ -27,8 +31,9 @@ public class FrontServlet extends HttpServlet {
             System.out.println("init");
         }catch (Exception e){
             e.printStackTrace();
+            
         }
-
+        
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response){
@@ -36,24 +41,41 @@ public class FrontServlet extends HttpServlet {
             String uri = Util.getLink(request);
             response.getWriter().println(uri);
 
-            Mapping temp = this.getMappingUrls().get("hello");
-
-            response.getWriter().println(temp.getClassName()+" :: "+temp.getMethod());
-
-            if (this.getMappingUrls().containsKey(uri)) {
-                Mapping mapping = (Mapping)this.getMappingUrls().get(uri);
-
-                Class clss = Class.forName(mapping.getClassName());
-                Object mappingObject = clss.newInstance();
-                Method mappingMethod = clss.getDeclaredMethod(mapping.getMethod());
+            String firstUri = uri.split("/")[0];
+            if (this.getMappingUrls().containsKey(firstUri)) {
                 
-                String jsp = (String) clss.getDeclaredMethod("JSP").invoke(mappingObject);
+                Mapping mapping = (Mapping)this.getMappingUrls().get(firstUri);
+                
+                System.out.println(mapping + " \n");
+                Class clss = Class.forName(mapping.getClassName());
+                Object mappingObject = clss.getConstructor().newInstance();
+                Method mappingMethod = clss.getDeclaredMethod(mapping.getMethodName());
+                
+                ModelView mv = (ModelView) mappingMethod.invoke(mappingObject);
 
-                RequestDispatcher dispatch = response.getRequestDispatcher(jsp);
+               
+                for (Map.Entry entry: mv.getData().entrySet()) {
+                    // System.out.println(entry.getKey()+" :: "+entry.getValue());
+                    request.setAttribute(entry.getKey().toString(),entry.getValue());
+                }
+
+                RequestDispatcher dispatch = request.getRequestDispatcher(mv.getView());
                 dispatch.forward(request,response);
             }
-        }catch (Exception e){
 
+            Collection<Mapping> values = this.getMappingUrls().values();
+
+            response.getWriter().println("Objects in the hashmap: " + values);
+
+
+        }catch (Exception e){
+            try {
+                e.printStackTrace();
+                response.getWriter().print(e.getMessage());
+                
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
 
     }
@@ -80,22 +102,25 @@ public class FrontServlet extends HttpServlet {
 
         ArrayList<File> files = new ArrayList<File>();
 
-
         Util.getFilesIn(new File(this.getServletContext().getResource(".").getPath()),files);
         files = Util.getClassesIn(files);
 
         ArrayList<Class> classList = Util.getClasses(files);
 
         ArrayList<Method> methods = null;
-        DBMethod ann = null;
+        Url ann = null;
         for (Class clss :
                 classList) {
             methods = Util.getAnnotedMethod(clss);
             for (Method method : methods){
-                ann = (DBMethod) method.getAnnotation(DBMethod.class);
-                String link = ann.link();
-                this.getMappingUrls().put(link,new Mapping(clss.getName(),method.getName()));
+                ann = (Url) method.getAnnotation(Url.class);
+                if (ann != null) {
+                    String link = ann.link();
+                    this.getMappingUrls().put(link,new Mapping(clss.getName(),method.getName()));    
+                }
             }
         }
+
+
     }
 }
