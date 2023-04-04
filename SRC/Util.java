@@ -122,7 +122,7 @@ public class Util {
         ArrayList<Method> result = new ArrayList<Method>();
 
         for (Method method : methods){
-            if(method.getAnnotation(DBMethod.class) != null) result.add(method);
+            if(method.getAnnotations().length != 0) result.add(method);
         }
         return result;
     }
@@ -135,7 +135,11 @@ public class Util {
     public static ArrayList<File> getClassesIn(ArrayList<File> lists)throws Exception{
         ArrayList<File> result = new ArrayList<File>();
         for(File file : lists){
-            if (file.getName().split("\\.")[1].equals("class")) result.add(file);
+            try {
+                if (file.getName().split("\\.")[1].equals("class")) result.add(file);
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
         }
         return result;
     }
