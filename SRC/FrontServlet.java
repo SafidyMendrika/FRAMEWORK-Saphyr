@@ -22,7 +22,7 @@ import java.util.Map;
 
 import java.lang.reflect.Parameter;
 
-@WebServlet(name = "FrontServlet", value = "/")
+@WebServlet(name = "FrontServlet", value = "*.do")
 public class FrontServlet extends HttpServlet {
     HashMap<String, Mapping> mappingUrls;
 
@@ -98,11 +98,12 @@ public class FrontServlet extends HttpServlet {
 
                 RequestDispatcher dispatch = request.getRequestDispatcher(mv.getView());
                 dispatch.forward(request,response);
+                
+                            Collection<Mapping> values = this.getMappingUrls().values();
+                
+                            response.getWriter().println("Objects in the hashmap: " + values);
+            }else{
             }
-
-            Collection<Mapping> values = this.getMappingUrls().values();
-
-            response.getWriter().println("Objects in the hashmap: " + values);
 
 
         }catch (Exception e){
