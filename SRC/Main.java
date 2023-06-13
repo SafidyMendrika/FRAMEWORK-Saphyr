@@ -1,18 +1,27 @@
-import etu1899.framework.utility.Util;
+package etu1899.framework.servlet;
 
-import java.io.File;
-import java.util.ArrayList;
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
+import jakarta.servlet.annotation.*;
+import java.io.IOException;
 
-public class Main {
-    public static void main(String[] args) {
-        try{
-            File f = new File(".");
+// @WebServlet(name = "Main", value = "/")
+public class Main extends HttpServlet {
 
-            System.out.println(f.getPath());
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)throws Exception{
+        
+        RequestDispatcher dispatch = request.getRequestDispatcher("index.jsp");
+        dispatch.forward(request,response);
+        
     }
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            
+            processRequest(request,response);
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+    }
+
 }
