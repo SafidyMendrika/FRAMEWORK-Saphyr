@@ -4,8 +4,9 @@ import java.util.ArrayList;
 
 import etu1899.framework.ModelView;
 import etu1899.framework.annotations.Url;
+import etu1899.framework.annotations.Scope;
 
-
+@Scope(value="singleton")
 public class Personne {
     String nom;
     int age;

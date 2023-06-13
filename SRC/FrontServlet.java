@@ -3,6 +3,7 @@ package etu1899.framework.servlet;
 import etu1899.framework.Mapping;
 import etu1899.framework.ModelView;
 import etu1899.framework.annotations.DBMethod;
+import etu1899.framework.annotations.Scope;
 import etu1899.framework.annotations.Url;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -11,6 +12,7 @@ import etu1899.framework.utility.Util;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Executable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -25,10 +27,12 @@ import java.lang.reflect.Parameter;
 @WebServlet(name = "FrontServlet", value = "*.do")
 public class FrontServlet extends HttpServlet {
     HashMap<String, Mapping> mappingUrls;
+    HashMap<Class, Object> singletonsObject;
 
     @Override
     public void init() throws ServletException {
         super.init();
+        this.setMappingUrls(new HashMap<String,Mapping>());
         this.setMappingUrls(new HashMap<String,Mapping>());
 
         try{
@@ -52,10 +56,17 @@ public class FrontServlet extends HttpServlet {
                 
                 System.out.println(mapping + " \n");
                 Class clss = Class.forName(mapping.getClassName());
-                Object mappingObject = clss.getConstructor().newInstance();
+                
+                Object mappingObject = null;
+                if (this.getSingletonsObject().containsKey(clss)) {
+                    mappingObject = this.getSingletonsObject().get(clss);   
+                }else{
+                    mappingObject =  clss.getConstructor().newInstance();
+                }
+
                 Method mappingMethod = mapping.getMethod();
                 
-                
+               
                 //formulaire
                 Field[] clssFields = clss.getDeclaredFields();
                 Object fieldContent = null;
@@ -157,6 +168,8 @@ public class FrontServlet extends HttpServlet {
                     this.getMappingUrls().put(link,new Mapping(clss.getName(),method));    
                 }
             }
+            checkScope(clss);
+
         }
 
 
@@ -172,5 +185,21 @@ public class FrontServlet extends HttpServlet {
             value = strval;
         }
         return value;
+    }
+
+    private void checkScope(Class clss)throws Exception{
+        Scope an = (Scope) clss.getAnnotation(Scope.class);
+
+        if(an != null && an.value() == "singleton"){
+            Object instance = clss.newInstance();
+            this.getSingletonsObject().put(clss, instance);
+        }
+    }
+
+    public void setSingletonsObject(HashMap<Class, Object> singletonsObject){
+        this.singletonsObject = singletonsObject;
+    }
+    public HashMap<Class, Object>  getSingletonsObject(){
+        return this.singletonsObject ;
     }
 }
