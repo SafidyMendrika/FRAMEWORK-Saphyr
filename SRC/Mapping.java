@@ -1,35 +1,37 @@
 package etu1899.framework;
 
+import java.lang.reflect.Method;
+
 public class Mapping {
     String className;
-    String methodName;
+    Method method;
 
     public Mapping(){}
-    public Mapping(String className,String method){
+    public Mapping(String className,Method method){
         this.setClassName(className);
-        this.setMethodName(method);
+        this.setMethod(method);
     }
 
     public void setClassName(String className) {
         this.className = className;
     }
 
-    public void setMethodName(String method) {
-        methodName = method;
+    public void setMethod(Method method) {
+        this.method = method;
     }
 
     public String getClassName() {
         return className;
     }
 
-    public String getMethodName() {
-        return methodName;
+    public Method getMethod() {
+        return method;
     }
     @Override
     public String toString() {
         return "Mapping{" +
                 "className='" + className + '\'' +
-                ", methodName='" + methodName + '\'' +
+                ", method='" + method.getName() + '\'' +
                 '}';
     }
 }

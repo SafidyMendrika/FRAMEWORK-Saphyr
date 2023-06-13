@@ -11,11 +11,16 @@ import etu1899.framework.utility.Util;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Executable;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+
+import java.lang.reflect.Parameter;
 
 @WebServlet(name = "FrontServlet", value = "/")
 public class FrontServlet extends HttpServlet {
@@ -28,7 +33,6 @@ public class FrontServlet extends HttpServlet {
 
         try{
             defineUrlMappings();
-            System.out.println("init");
         }catch (Exception e){
             e.printStackTrace();
             
@@ -49,11 +53,44 @@ public class FrontServlet extends HttpServlet {
                 System.out.println(mapping + " \n");
                 Class clss = Class.forName(mapping.getClassName());
                 Object mappingObject = clss.getConstructor().newInstance();
-                Method mappingMethod = clss.getDeclaredMethod(mapping.getMethodName());
+                Method mappingMethod = mapping.getMethod();
                 
-                ModelView mv = (ModelView) mappingMethod.invoke(mappingObject);
-
-               
+                
+                //formulaire
+                Field[] clssFields = clss.getDeclaredFields();
+                Object fieldContent = null;
+                for (Field field : clssFields) {
+                    fieldContent = request.getParameter(field.getName());
+                    if (fieldContent != null) {
+                        fieldContent = parseType(fieldContent,field.getType());
+                        
+                        field.setAccessible(true);
+                        field.set(mappingObject,fieldContent);
+                        field.setAccessible(false);
+                        System.out.println(fieldContent);
+                    }
+                    fieldContent = null;
+                }
+                //
+                // getting the parameters of the method
+                Parameter[] parameters = mappingMethod.getParameters();
+                Object[] parametersObject = new Object[parameters.length];
+                Object param = null;
+                int i = 0;
+                for (Parameter parameter : parameters) {
+                    param = request.getParameter(parameter.getName());
+                    // System.out.println("params : "+parameter);
+                    parametersObject[i] = parseType(param, parameter.getType());
+                    i++;
+                }
+                ModelView mv = null;
+                if (parametersObject.length == 0) {
+                    mv = (ModelView) mappingMethod.invoke(mappingObject);
+                }else{
+                    mv = (ModelView) mappingMethod.invoke(mappingObject,parametersObject);
+                }
+                
+               // data into a view
                 for (Map.Entry entry: mv.getData().entrySet()) {
                     // System.out.println(entry.getKey()+" :: "+entry.getValue());
                     request.setAttribute(entry.getKey().toString(),entry.getValue());
@@ -116,11 +153,23 @@ public class FrontServlet extends HttpServlet {
                 ann = (Url) method.getAnnotation(Url.class);
                 if (ann != null) {
                     String link = ann.link();
-                    this.getMappingUrls().put(link,new Mapping(clss.getName(),method.getName()));    
+                    this.getMappingUrls().put(link,new Mapping(clss.getName(),method));    
                 }
             }
         }
 
 
+    }
+    private Object parseType(Object input,Class type){
+        Object value = null;
+        String strval = String.valueOf(input);
+        if (type == int.class) {
+            value = Integer.parseInt(strval);
+        }else if(type == double.class){
+            value = Double.valueOf(strval);
+        }else if(type == String.class){
+            value = strval;
+        }
+        return value;
     }
 }
