@@ -17,7 +17,6 @@ public class Main extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            
             processRequest(request,response);
         } catch (Exception e) {
             // TODO: handle exception
