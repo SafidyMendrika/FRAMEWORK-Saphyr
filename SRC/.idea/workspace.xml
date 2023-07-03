@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="cfb943bb-cfbe-4c05-bdb6-58c1df665fe0" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../BIN/etu1899/framework/FileUpload.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BIN/etu1899/framework/Mapping.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BIN/etu1899/framework/ModelView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BIN/etu1899/framework/annotations/DBColumn.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BIN/etu1899/framework/annotations/DBMethod.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BIN/etu1899/framework/annotations/DBModel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BIN/etu1899/framework/annotations/Url.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BIN/etu1899/framework/servlet/FrontServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BIN/etu1899/framework/servlet/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BIN/etu1899/framework/utility/Util.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BIN/model/Personne.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/FrontServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ModelView.java" beforeDir="false" afterPath="$PROJECT_DIR$/ModelView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Personne.java" beforeDir="false" afterPath="$PROJECT_DIR$/Personne.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TEST/WEB-INF/classes/etu1899/framework/servlet/FrontServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/../TEST/WEB-INF/classes/etu1899/framework/servlet/FrontServlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TEST/WEB-INF/classes/model/Personne.class" beforeDir="false" afterPath="$PROJECT_DIR$/../TEST/WEB-INF/classes/model/Personne.class" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ProjectId" id="2S4dFVjgtxUZaPkVjGDBAlt5TLg" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "/home/mendrika/Documents/S4/WEB-DYNAMIQUE/FRAMEWORK/FRAMEWORK-Saphyr/SRC",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="cfb943bb-cfbe-4c05-bdb6-58c1df665fe0" name="Changes" comment="" />
+      <created>1688409684653</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1688409684653</updated>
+      <workItem from="1688409685982" duration="9000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

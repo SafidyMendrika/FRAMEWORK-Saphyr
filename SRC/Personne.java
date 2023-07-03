@@ -1,9 +1,13 @@
-package model;
+// example class
+
+package example;
 
 import java.util.ArrayList;
 
 import etu1899.framework.ModelView;
 import etu1899.framework.annotations.Url;
+import etu1899.framework.annotations.RestAPI;
+import etu1899.framework.annotations.ParameterName;
 
 
 public class Personne {
@@ -46,6 +50,19 @@ public class Personne {
         return mv;
     }
 
+    @Url(link = "final.do")
+    @RestAPI("")
+    public ArrayList<Personne> getFinal(){
+        ModelView mv = new ModelView();
+        ArrayList<Personne> pers = new ArrayList<Personne>();
+
+        pers.add(new Personne("Mendrika"));
+        pers.add(new Personne("Safidy"));
+        pers.add(new Personne("Badoda"));
+        pers.add(new Personne("POPOl"));
+
+        return pers;
+    }
     @Url(link = "manampy.do")
     public ModelView manampy(){
         ModelView mv = new ModelView();
@@ -60,7 +77,7 @@ public class Personne {
         return mv;
     }
     @Url(link = "details.do")
-    public ModelView details(int id){
+    public ModelView details(@ParameterName("id") int id){
         ModelView mv = new ModelView();
 
         String nom = "";
@@ -83,6 +100,7 @@ public class Personne {
         mv.additem("prenom",prenom);
         mv.setView("details.jsp");
 
+        //mv.setJsonizable(true);
         return mv;
     }
 }

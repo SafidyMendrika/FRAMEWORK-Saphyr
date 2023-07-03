@@ -5,6 +5,7 @@ import java.util.HashMap;
 public class ModelView {
     String view;
     HashMap<String,Object> data;
+    boolean isJson;
 
     public ModelView(){
         this.setView("");
@@ -31,5 +32,10 @@ public class ModelView {
     public HashMap<String, Object> getData() {
         return data;
     }
-
+    public void setJsonizable(boolean jsonizable){
+        this.isJson = jsonizable;
+    }
+    public boolean isJsonizable(){
+        return this.isJson;
+    }
 }

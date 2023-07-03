@@ -3,6 +3,8 @@ package etu1899.framework.servlet;
 import etu1899.framework.Mapping;
 import etu1899.framework.ModelView;
 import etu1899.framework.annotations.DBMethod;
+import etu1899.framework.annotations.ParameterName;
+import etu1899.framework.annotations.RestAPI;
 import etu1899.framework.annotations.Url;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -20,9 +22,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.gson.Gson;
 import java.lang.reflect.Parameter;
 
-@WebServlet(name = "FrontServlet", value = "*.do")
+//@WebServlet(name = "FrontServlet", value = "*.do")
 public class FrontServlet extends HttpServlet {
     HashMap<String, Mapping> mappingUrls;
 
@@ -43,7 +46,7 @@ public class FrontServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response){
         try {
             String uri = Util.getLink(request);
-            response.getWriter().println(uri);
+            //response.getWriter().println(uri);
 
             String firstUri = uri.split("/")[0];
             if (this.getMappingUrls().containsKey(firstUri)) {
@@ -78,31 +81,55 @@ public class FrontServlet extends HttpServlet {
                 Object param = null;
                 int i = 0;
                 for (Parameter parameter : parameters) {
-                    param = request.getParameter(parameter.getName());
-                    // System.out.println("params : "+parameter);
+                    param = request.getParameter(getNameByAnnotation(parameter));
+                     //System.out.println("params : "+param);
                     parametersObject[i] = parseType(param, parameter.getType());
                     i++;
                 }
                 ModelView mv = null;
+
+                if(isAnnotedMethod(mappingMethod, RestAPI.class)){
+                    Object result = null;
+
+                    if (parametersObject.length == 0) {
+                        result = (ModelView) mappingMethod.invoke(mappingObject);
+                    }else{
+                        result = (ModelView) mappingMethod.invoke(mappingObject,parametersObject);
+                    }
+
+                    Gson jsonizer = new Gson();
+
+                    response.getWriter().print(jsonizer.toJson(result));
+                }else{
+                    
                 if (parametersObject.length == 0) {
                     mv = (ModelView) mappingMethod.invoke(mappingObject);
                 }else{
                     mv = (ModelView) mappingMethod.invoke(mappingObject,parametersObject);
                 }
-                
-               // data into a view
-                for (Map.Entry entry: mv.getData().entrySet()) {
-                    // System.out.println(entry.getKey()+" :: "+entry.getValue());
-                    request.setAttribute(entry.getKey().toString(),entry.getValue());
-                }
 
-                RequestDispatcher dispatch = request.getRequestDispatcher(mv.getView());
-                dispatch.forward(request,response);
-                
-                            Collection<Mapping> values = this.getMappingUrls().values();
-                
-                            response.getWriter().println("Objects in the hashmap: " + values);
-            }else{
+                if (mv.isJsonizable()) {
+                    Gson jsonizer = new Gson();
+
+                    response.getWriter().print(jsonizer.toJson(mv.getData()));
+                    
+                }else{
+                    // data into a view
+                    for (Map.Entry entry: mv.getData().entrySet()) {
+                        // System.out.println(entry.getKey()+" :: "+entry.getValue());
+                        request.setAttribute(entry.getKey().toString(),entry.getValue());
+                    }
+                    
+                    RequestDispatcher dispatch = request.getRequestDispatcher(mv.getView());
+                    dispatch.forward(request,response);
+                    
+                    // Collection<Mapping> values = this.getMappingUrls().values();
+                    
+                    // response.getWriter().println("Objects in the hashmap: " + values);
+                }
+            }
+
+
             }
 
 
@@ -172,5 +199,17 @@ public class FrontServlet extends HttpServlet {
             value = strval;
         }
         return value;
+    }
+    private static boolean isAnnotedMethod(Method o ,Class c){
+        if (o.getAnnotation(c) != null) {
+                return true;
+        }   
+        return false;
+    }
+    private static String getNameByAnnotation(Parameter p ){
+        String result = "";
+        ParameterName pn = (ParameterName) p.getAnnotation(ParameterName.class);
+        result = pn.value();
+        return result;
     }
 }
