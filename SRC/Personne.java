@@ -80,12 +80,12 @@ public class Personne {
         return mv;
     }
     @Url(link = "details.do")
-    public ModelView details(){
+    public ModelView details(@ParameterName("id")int id){
         ModelView mv = new ModelView();
 
         String nom = "";
         String prenom = "";
-/*
+
         if (id == 1) {
             nom = "mendrika";
             prenom = "Safidy";
@@ -98,9 +98,7 @@ public class Personne {
             nom = "Design";
             prenom = " er";
         }
-        */
-        nom = "mendrika";
-        prenom = "Safidy";
+        
         
         mv.additem("nom",nom);
         mv.additem("prenom",prenom);
