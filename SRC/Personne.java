@@ -67,6 +67,8 @@ public class Personne {
 
         return pers;
     }
+
+    
     @Url(link = "manampy.do")
     public ModelView manampy(){
         ModelView mv = new ModelView();
@@ -115,6 +117,19 @@ public class Personne {
         String admin =  (String) this.session.get("admin");
         
         mv.additem("admin",admin);
+        
+        mv.setView("testsession.jsp");
+
+        //mv.setJsonizable(true);   
+        return mv;
+    }
+    @Url(link = "disconnect.do")
+    public ModelView disconnect(){
+        ModelView mv = new ModelView();
+
+        this.session.remove("admin");
+        
+        mv.additem("admin","admin removed");
         
         mv.setView("testsession.jsp");
 

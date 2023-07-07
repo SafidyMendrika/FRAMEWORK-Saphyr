@@ -26,11 +26,14 @@
 > - ### **PS  :**  If it doesn't work ,  copy all .java files near your environement and compile these together
 
 # Devellopement env
-> - **Annotaions :** :
+> - **Annotaions :** 
 >> - Url(link = "link.do") : SCOPE => METHOD
 >> - Auth(profile = "profile who can access to the method") : SCOPE => METHOD
 >> - Scope(value = "singleton/global") //the scope of the class// : SCOPE : CLASS 
-
+>> - ParameterName(value = "name of the parameter") //the name of the parameter// : SCOPE : PARAMETER
+> - **Contraints :**
+>> - all method annoted by Url ,if have a paremeter,must be annoted : @ParameterName("the parameter name")
+>> - if you want to have access to httpSession in model , you can already put a Field ***public HashMap<String,Ovject> session***
 
 
 ## @Copyright 2023 [RAZAFIMALAZA Safidy Mendrika ETU001899 ](https://github.com/SafidyMendrika) 

@@ -103,10 +103,13 @@ public class FrontServlet extends HttpServlet {
                 ModelView mv = null;
 
                 // SessionField
+                boolean hasSession = false;
+                Field f = null;
                 try {
-                    Field f = mappingObject.getClass().getDeclaredField("session");
+                     f = mappingObject.getClass().getDeclaredField("session");
                     if (f != null) {
                         instanceSession(f, mappingObject, request.getSession());
+                        hasSession = true;
                     }
                 } catch (Exception e) {
                     System.out.println("erreur ao am session field");
@@ -151,6 +154,10 @@ public class FrontServlet extends HttpServlet {
                     // Collection<Mapping> values = this.getMappingUrls().values();
                     
                     // response.getWriter().println("Objects in the hashmap: " + values);
+                }
+
+                if(hasSession){
+                    retrieveSession(f, mappingObject, request.getSession(true));
                 }
             }
 
@@ -252,7 +259,20 @@ public class FrontServlet extends HttpServlet {
             }
 
             f.set(o, sess);
+            session.invalidate();
+
     }   
+    private void retrieveSession(Field f , Object o ,HttpSession session)throws Exception{
+        HashMap<String,Object> sess = (HashMap<String,Object>) f.get(o);
+
+        for (Map.Entry<String, Object> entry : sess.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+
+            session.setAttribute(key,value);
+        }
+        
+}  
     private void checkScope(Class clss)throws Exception{
         Scope an = (Scope) clss.getAnnotation(Scope.class);
 
