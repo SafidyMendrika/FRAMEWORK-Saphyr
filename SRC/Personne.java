@@ -9,8 +9,9 @@ import etu1899.framework.ModelView;
 import etu1899.framework.annotations.Url;
 import etu1899.framework.annotations.RestAPI;
 import etu1899.framework.annotations.ParameterName;
+import etu1899.framework.annotations.Scope;
 
-
+@Scope(value="singleton")
 public class Personne {
     String nom;
     int age;
