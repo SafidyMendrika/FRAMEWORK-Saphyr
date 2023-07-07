@@ -1,6 +1,6 @@
 # FRAMEWORK-Saphyr
 ### Achievement : 
-    - [1;8]U[10;11]U[13;14]
+    - [1;8]U[10;14]
 > # Needed library 
 > - **GSON** : library of google to jsonize an object :  **[downlaod GSON](https://jar-download.com/artifacts/com.google.code.gson/gson/2.8.2/source-code)**
 > - **servlet-api** : library how provide the HTTP's object :  **[download servlet-api](http://www.java2s.com/Code/Jar/s/Downloadservletapijar.htm)**
@@ -24,6 +24,13 @@
 </web-app>
 ```
 > - ### **PS  :**  If it doesn't work ,  copy all .java files near your environement and compile these together
+
+# Devellopement env
+> - **Annotaions :** :
+>> - Url(link = "link.do") : SCOPE => METHOD
+>> - Auth(profile = "profile who can access to the method") : SCOPE => METHOD
+>> - Scope(value = "singleton/global") //the scope of the class// : SCOPE : CLASS 
+
 
 
 ## @Copyright 2023 [RAZAFIMALAZA Safidy Mendrika ETU001899 ](https://github.com/SafidyMendrika) 

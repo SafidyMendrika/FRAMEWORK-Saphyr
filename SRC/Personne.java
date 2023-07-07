@@ -3,6 +3,7 @@
 package example;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import etu1899.framework.ModelView;
 import etu1899.framework.annotations.Url;
@@ -13,6 +14,8 @@ import etu1899.framework.annotations.ParameterName;
 public class Personne {
     String nom;
     int age;
+    public HashMap<String,Object> session;
+
     public void setAge(int age) {
         this.age = age;
     }
@@ -77,12 +80,12 @@ public class Personne {
         return mv;
     }
     @Url(link = "details.do")
-    public ModelView details(@ParameterName("id") int id){
+    public ModelView details(){
         ModelView mv = new ModelView();
 
         String nom = "";
         String prenom = "";
-
+/*
         if (id == 1) {
             nom = "mendrika";
             prenom = "Safidy";
@@ -95,12 +98,28 @@ public class Personne {
             nom = "Design";
             prenom = " er";
         }
+        */
+        nom = "mendrika";
+        prenom = "Safidy";
         
         mv.additem("nom",nom);
         mv.additem("prenom",prenom);
         mv.setView("details.jsp");
 
         //mv.setJsonizable(true);
+        return mv;
+    }
+    @Url(link = "session.do")
+    public ModelView session(){
+        ModelView mv = new ModelView();
+
+        String admin =  (String) this.session.get("admin");
+        
+        mv.additem("admin",admin);
+        
+        mv.setView("testsession.jsp");
+
+        //mv.setJsonizable(true);   
         return mv;
     }
 }
