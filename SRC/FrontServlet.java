@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Enumeration;
 
 import com.google.gson.Gson;
 import java.lang.reflect.Parameter;
@@ -81,6 +82,8 @@ public class FrontServlet extends HttpServlet {
                 Object param = null;
                 int i = 0;
                 for (Parameter parameter : parameters) {
+
+                    //System.out.println("misy parameters : " + parameter.getName());
                     param = request.getParameter(getNameByAnnotation(parameter));
                      //System.out.println("params : "+param);
                     parametersObject[i] = parseType(param, parameter.getType());
@@ -88,6 +91,17 @@ public class FrontServlet extends HttpServlet {
                 }
                 ModelView mv = null;
 
+                // SessionField
+                try {
+                    Field f = mappingObject.getClass().getDeclaredField("session");
+                    if (f != null) {
+                        instanceSession(f, mappingObject, request.getSession());
+                    }
+                } catch (Exception e) {
+                    System.out.println("erreur ao am session field");
+                    e.printStackTrace();
+                }
+                //
                 if(isAnnotedMethod(mappingMethod, RestAPI.class)){
                     Object result = null;
 
@@ -101,8 +115,8 @@ public class FrontServlet extends HttpServlet {
 
                     response.getWriter().print(jsonizer.toJson(result));
                 }else{
-                    
-                if (parametersObject.length == 0) {
+                
+                    if (parametersObject.length == 0) {
                     mv = (ModelView) mappingMethod.invoke(mappingObject);
                 }else{
                     mv = (ModelView) mappingMethod.invoke(mappingObject,parametersObject);
@@ -212,4 +226,18 @@ public class FrontServlet extends HttpServlet {
         result = pn.value();
         return result;
     }
+    private void instanceSession(Field f , Object o ,HttpSession session)throws Exception{
+            HashMap<String,Object> sess = new HashMap<String,Object>();
+
+            
+            Enumeration<String> attributeNames = session.getAttributeNames();
+            while (attributeNames.hasMoreElements()) {
+                String key = attributeNames.nextElement();
+                Object value = session.getAttribute(key);
+
+                sess.put(key, value);
+            }
+
+            f.set(o, sess);
+    }   
 }
