@@ -37,7 +37,7 @@ public class FrontServlet extends HttpServlet {
     public void init() throws ServletException {
         super.init();
         this.setMappingUrls(new HashMap<String,Mapping>());
-        this.setMappingUrls(new HashMap<String,Mapping>());
+        this.setSingletonsObject(new HashMap<Class,Object>());
 
         try{
             defineUrlMappings();
@@ -117,9 +117,9 @@ public class FrontServlet extends HttpServlet {
                     Object result = null;
 
                     if (parametersObject.length == 0) {
-                        result = (ModelView) mappingMethod.invoke(mappingObject);
+                        result =  mappingMethod.invoke(mappingObject);
                     }else{
-                        result = (ModelView) mappingMethod.invoke(mappingObject,parametersObject);
+                        result = mappingMethod.invoke(mappingObject,parametersObject);
                     }
 
                     Gson jsonizer = new Gson();

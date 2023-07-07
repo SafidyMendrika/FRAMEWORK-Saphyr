@@ -105,7 +105,7 @@ public class Personne {
         mv.additem("prenom",prenom);
         mv.setView("details.jsp");
 
-        //mv.setJsonizable(true);
+        mv.setJsonizable(true);
         return mv;
     }
     @Url(link = "session.do")
