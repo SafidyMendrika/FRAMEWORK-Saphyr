@@ -9,6 +9,7 @@ public class ModelView {
 
     public ModelView(){
         this.setView("");
+        
         this.setData(new HashMap<String,Object>());
         
     }

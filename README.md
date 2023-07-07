@@ -1,8 +1,9 @@
 # FRAMEWORK-Saphyr
- 
+### Achievement : 
+    - [1;8]U[10;11]U[13;14]
 > # Needed library 
 > - **GSON** : library of google to jsonize an object :  **[downlaod GSON](https://jar-download.com/artifacts/com.google.code.gson/gson/2.8.2/source-code)**
-> - **servlet-api** : library how provide the HTTP's object :  **[downlaod servlet-api](http://www.java2s.com/Code/Jar/s/Downloadservletapijar.htm)**
+> - **servlet-api** : library how provide the HTTP's object :  **[download servlet-api](http://www.java2s.com/Code/Jar/s/Downloadservletapijar.htm)**
 ---
 
 # Initials Parameters
@@ -22,5 +23,7 @@
 
 </web-app>
 ```
+> - ### **PS  :**  If it doesn't work ,  copy all .java files near your environement and compile these together
+
 
 ## @Copyright 2023 [RAZAFIMALAZA Safidy Mendrika ETU001899 ](https://github.com/SafidyMendrika) 
